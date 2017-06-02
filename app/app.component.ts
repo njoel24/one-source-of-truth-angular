@@ -71,7 +71,7 @@ export class AppComponent implements OnInit {
             if (state && state.name && state.name.length > 0) {
                 this.disableSearch = false;
                 this.errorEmptySearch = false;
-                this.youtube.search(state)
+                this.youtube.search(state);
             } else {
                 this.disableSearch = true;
                 this.errorEmptySearch = true;

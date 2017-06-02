@@ -8,15 +8,13 @@ const YOUTUBE_API_KEY = 'AIzaSyDOfT_BO81aEZScosfTYMruJobmpjqNeEk';
 const YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3/search';
 const LOCATION_TEMPLATE = 'location={latitude},{longitude}&locationRadius={radius}km';
 
-
 @Injectable()
 export class YouTubeService {
 
     searchResults: BehaviorSubject<SearchResult[]> = new BehaviorSubject<SearchResult[]>([]);
 
     constructor( private http: Http ) {}
-    
-    search(query: CurrentSearch): Observable<SearchResult[]>  {
+    search(query: CurrentSearch): void  {
         let params = [
             `q=${query.name}`,
             `key=${YOUTUBE_API_KEY}`,
@@ -37,22 +35,18 @@ export class YouTubeService {
         
         const queryUrl: string = `${YOUTUBE_API_URL}?${params.join('&')}`;
 
-        console.log(queryUrl);
-        
-        this.http.get(queryUrl)
-            .map((response: Response) => {
-                console.log(response);
-                return <any>response.json().items.map(item => {
-                    return {
+            this.http.get(queryUrl).map((response: Response) => {
+                return <SearchResult[]> response.json().items.map(item => {
+                    return <SearchResult>{
                         id: item.id.videoId,
                         title: item.snippet.title,
                         thumbnailUrl: item.snippet.thumbnails.high.url
                     };
                 });
-            })
-            .subscribe((results: SearchResult[]) => this.searchResults.next(results));
-
-        return this.searchResults;
+            }).subscribe(
+                (x: SearchResult[]) => this.searchResults.next(x),
+                e => console.log('error'), 
+                ()=> console.log("completed"));
     }
 
 }
