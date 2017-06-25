@@ -23,31 +23,23 @@ import {YouTubeService} from "./services/youtube.service";
             <p>{{ errorLocationMessage }}</p>
         </div>
         <div class="row col-md-8">
-            <p>
-            Try to type something in the searchbox, play with the location and with radius: the above state will
-            always be consistent and up to date.
-            </p>
-            <p class="state">{{ state | json }}</p>
-            <p class="state" *ngIf="disableSearch">state is empty</p>
-            <h2 *ngIf="!disableSearch">Search results:</h2>
+            <h6 *ngIf="!disableSearch">Search results:</h6>
         </div>
         <div class="row col-md-8">
-            <h2 *ngIf="disableSearch || searchResults.length == 0">No results</h2>
+            <h6 *ngIf="searchResults.length == 0">No results</h6>
         </div>
         <div class="row col-md-8">
-            <div *ngFor="let result of searchResults" class="thumbnail col-sm-6 col-md-4">
-                <div class="caption">
-                <h3>{{ result.title }}</h3>
-                </div>
-                <img src="{{ result.thumbnailUrl }}" />
-            </div>
+            <a *ngFor="let result of searchResults" class="col-md-8" href="https://www.youtube.com/watch?v={{ result.id }}" target='_blank'>
+                <div class="row col-md-7">{{ result.title }}</div>
+                <div class="row col-md-1"><img src="{{ result.thumbnailUrl }}" style='max-width:100px;' /></div>
+            </a>
         </div>
         </section>
     `
 })
 export class AppComponent implements OnInit {
 
-    title = 'One Source of Truth for Angular 2';
+    title = '';
 
     private state: CurrentSearch;
     private currentSearch: Observable<CurrentSearch>;
