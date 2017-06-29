@@ -6,7 +6,7 @@
   "homepage": "",
   "license": "ISC",
   "scripts": {
-    "start": "node fuse.js && concurrently | lite-server",
+    "start": "lite-server | node fuse.js && concurrently",
     "lite": "lite-server",
     "postinstall": "typings install",
     "tsc": "tsc",

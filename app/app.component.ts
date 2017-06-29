@@ -65,6 +65,9 @@ export class AppComponent implements OnInit {
     private errorLocation = false;
     private errorLocationMessage = '';
     private videoLoaded: boolean = false;
+    private appWindow;
+    private appOrigin;
+
 
     constructor(
         private store: Store<CurrentSearch>,
@@ -72,6 +75,7 @@ export class AppComponent implements OnInit {
     ) {
         this.currentSearch = this.store.select<CurrentSearch>('currentSearch');
         this.youtube.searchResults.subscribe((results: SearchResult[]) => this.searchResults = results);
+        window.addEventListener('message', this.onMessage.bind(this));        
     }
 
     stopVideo() {
@@ -98,6 +102,18 @@ export class AppComponent implements OnInit {
         return message;
     }
 
+
+    onMessage(e) {
+        this.appWindow = e.source;
+        this.appOrigin = e.origin;
+    }
+
+    doSendMessage(message) {
+        if (this.appWindow && this.appOrigin) {
+            this.appWindow.postMessage(message, this.appOrigin);
+        } 
+    }
+
     ngOnInit() {
         this.currentSearch.subscribe((state: CurrentSearch) => {
             this.state = state;
@@ -106,7 +122,7 @@ export class AppComponent implements OnInit {
                 this.errorEmptySearch = false;
                 this.youtube.search(state);
                 this.videoLoaded = this.state.videoId ? true: false;
-                parent.postMessage(this.prepareMessage(this.videoLoaded),'*');
+                this.doSendMessage(this.prepareMessage(this.videoLoaded));
             } else {
                 this.disableSearch = true;
                 this.errorEmptySearch = true;
