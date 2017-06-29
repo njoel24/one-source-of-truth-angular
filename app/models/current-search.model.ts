@@ -5,5 +5,6 @@ export interface CurrentSearch {
         longitude: number
     },
     radius: number,
-    error?: string
+    error?: string,
+    videoId?: string
 }

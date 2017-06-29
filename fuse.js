@@ -3,7 +3,7 @@ const fuse = FuseBox.init({
     homeDir: "app",
     output: "build/$name.js",
 });
-fuse.bundle("app")
+fuse.bundle("app").watch()
     .instructions(`>main.ts`);
 
 fuse.run();

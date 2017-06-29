@@ -6,7 +6,7 @@
   "homepage": "",
   "license": "ISC",
   "scripts": {
-    "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
+    "start": "node fuse.js && concurrently | lite-server",
     "lite": "lite-server",
     "postinstall": "typings install",
     "tsc": "tsc",
@@ -29,7 +29,9 @@
     "bootstrap": "^3.3.6",
     "core-js": "^2.4.1",
     "es6-shim": "^0.35.0",
+    "fsbx": "^2.1.0-beta.4",
     "fuse-box": "^2.1.0",
+    "gulp": "^3.9.1",
     "reflect-metadata": "^0.1.3",
     "rxjs": "5.0.0-beta.12",
     "yarn": "^0.24.5",
