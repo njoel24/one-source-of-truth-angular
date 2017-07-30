@@ -15,23 +15,23 @@ import {YouTubeService} from "./services/youtube.service";
         <h1>{{title}}</h1>
         <div class="row col-md-8">
             <search-box [store]="store"></search-box>
-            <proximity-selector [store]="store" [disabled]="disableSearch || errorLocation"
+            <proximity-selector *ngIf="!disableGeoLocalization" [store]="store" [disabled]="disableSearch || errorLocation"
             [ngClass]="{ disabled: disableSearch }"></proximity-selector>
         </div>
-        <div class="row col-md-8 alert alert-danger" *ngIf="errorEmptySearch">
+        <div class="row col-md-8 alert alert-danger" *ngIf="errorEmptySearch && !disableGeoLocalization">
             <p>Can't use geolocalization with an empty searchbox</p>
         </div>
-        <div class="row col-md-8 alert alert-warning" *ngIf="errorLocation">
+        <div class="row col-md-8 alert alert-warning" *ngIf="errorLocation && !disableGeoLocalization">
             <p>{{ errorLocationMessage }}</p>
         </div>
-        <div class="row col-md-8">
+        <div class="row col-md-12">
             <h6 *ngIf="!disableSearch">Search results:</h6>
         </div>
-        <div class="row col-md-8">
+        <div class="row col-md-12">
             <h6 *ngIf="searchResults.length == 0">No results</h6>
         </div>
-        <div class="row col-md-8">
-            <a *ngFor="let result of searchResults" class="col-md-8" >
+        <div class="row col-md-12">
+            <a *ngFor="let result of searchResults" class="col-md-12" >
                 <div class="row col-md-7">{{ result.title }}</div>
                 <div class="row col-md-1"><img src="{{ result.thumbnailUrl }}"
                  (click)="playVideo(result.id)" style='max-width:100px;cursor:pointer;' /></div>
@@ -39,8 +39,8 @@ import {YouTubeService} from "./services/youtube.service";
         </div>
     </section>
     <section *ngIf="videoLoaded">
-        <div class="row col-md-8" >
-            <a  class="col-md-8" >
+        <div class="row col-md-12" >
+            <a  class="col-md-12" >
                 <div class="row col-md-7" style="cursor:pointer" (click)="stopVideo()">Back</div>
             </a>
             <youtube-player [store]="store" ></youtube-player>
@@ -62,12 +62,12 @@ export class AppComponent implements OnInit {
     private searchResults: SearchResult[] = [];
     private disableSearch = false;
     private errorEmptySearch = true;
+    private disableGeoLocalization = true;
     private errorLocation = false;
     private errorLocationMessage = '';
     private videoLoaded: boolean = false;
     private appWindow;
     private appOrigin;
-
 
     constructor(
         private store: Store<CurrentSearch>,

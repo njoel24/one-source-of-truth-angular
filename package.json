@@ -1,8 +1,8 @@
 {
   "name": "osotfa",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "",
-  "author": "Pietro Grandi <pietro.grandi.3d@gmail.com>",
+  "author": "Pietro Grandi <pietro.grandi.3d@gmail.com>, Cristiano Anselmi <cristiano.anselmi@gmail.com>",
   "homepage": "",
   "license": "ISC",
   "scripts": {
